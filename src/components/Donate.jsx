@@ -10,7 +10,7 @@ const rawApiBaseUrl = String(import.meta.env.VITE_API_BASE_URL || '').trim()
 const API_BASE_URL =
   rawApiBaseUrl && rawApiBaseUrl !== 'undefined' && rawApiBaseUrl !== 'null'
     ? rawApiBaseUrl.replace(/\/$/, '')
-    : 'http://localhost:4000'
+    : 'https://dog-foundation-backend.vercel.app'
 
 async function parseApiResponse(response) {
   const contentType = response.headers.get('content-type') || ''
@@ -91,6 +91,10 @@ export default function Donate() {
   async function handleDetailsSubmit(e) {
     e.preventDefault()
     if (!validateDetails()) return
+    if (!API_BASE_URL) {
+      setPaymentMessage('Backend API URL is missing. Set VITE_API_BASE_URL in frontend environment.')
+      return
+    }
     if (currency !== 'INR') {
       setPaymentMessage('UPI is available only with INR. Please select INR and try again.')
       return
