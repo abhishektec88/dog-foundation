@@ -10,7 +10,7 @@ const rawApiBaseUrl = String(import.meta.env.VITE_API_BASE_URL || '').trim()
 const API_BASE_URL =
   rawApiBaseUrl && rawApiBaseUrl !== 'undefined' && rawApiBaseUrl !== 'null'
     ? rawApiBaseUrl.replace(/\/$/, '')
-    : 'http://localhost:4000'
+    : 'https://dog-foundation.vercel.app'
 
 function loadRazorpayScript() {
   if (typeof window === 'undefined') return Promise.resolve(false)
