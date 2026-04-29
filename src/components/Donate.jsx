@@ -10,7 +10,14 @@ const rawApiBaseUrl = String(import.meta.env.VITE_API_BASE_URL || '').trim()
 const API_BASE_URL =
   rawApiBaseUrl && rawApiBaseUrl !== 'undefined' && rawApiBaseUrl !== 'null'
     ? rawApiBaseUrl.replace(/\/$/, '')
-    : 'https://dog-foundation.vercel.app'
+    : 'http://localhost:4000'
+
+async function parseApiResponse(response) {
+  const contentType = response.headers.get('content-type') || ''
+  if (contentType.includes('application/json')) return response.json()
+  const text = await response.text()
+  throw new Error(`Invalid API response (${response.status}): ${text.slice(0, 140)}`)
+}
 
 function loadRazorpayScript() {
   if (typeof window === 'undefined') return Promise.resolve(false)
@@ -75,7 +82,7 @@ export default function Donate() {
       }),
     })
 
-    const verifyData = await verifyRes.json()
+    const verifyData = await parseApiResponse(verifyRes)
     if (!verifyRes.ok || !verifyData.success) {
       throw new Error(verifyData.message || 'Payment verification failed.')
     }
@@ -106,8 +113,11 @@ export default function Donate() {
           donor: donorDetails,
         }),
       })
-      const orderData = await orderRes.json()
+      const orderData = await parseApiResponse(orderRes)
       if (!orderRes.ok) throw new Error(orderData.message || 'Unable to create payment order.')
+      if (!orderData?.keyId || !orderData?.orderId || !orderData?.amount || !orderData?.currency) {
+        throw new Error('Payment order response is incomplete. Check backend Razorpay configuration.')
+      }
 
       const options = {
         key: orderData.keyId,
