@@ -6,7 +6,11 @@ const CURRENCIES = {
   INR: { symbol: '₹', amounts: [100, 500, 1500, 3000] },
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+const rawApiBaseUrl = String(import.meta.env.VITE_API_BASE_URL || '').trim()
+const API_BASE_URL =
+  rawApiBaseUrl && rawApiBaseUrl !== 'undefined' && rawApiBaseUrl !== 'null'
+    ? rawApiBaseUrl.replace(/\/$/, '')
+    : 'http://localhost:4000'
 
 function loadRazorpayScript() {
   if (typeof window === 'undefined') return Promise.resolve(false)
