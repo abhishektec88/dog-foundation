@@ -117,14 +117,6 @@ export default function Donate() {
         description: `${frequency === 'monthly' ? 'Monthly' : 'One-time'} donation`,
         order_id: orderData.orderId,
         prefill: orderData.prefill,
-        method: {
-          upi: true,
-          card: true,
-          netbanking: true,
-          wallet: true,
-          emi: true,
-          paylater: true,
-        },
         theme: { color: '#c45c3e' },
         handler: async (response) => {
           try {
