@@ -1,20 +1,29 @@
 :root {
-  --color-bg: #faf7f2;
-  --color-surface: #ffffff;
-  --color-text: #3d342f;
-  --color-muted: #6b625c;
+  --color-bg: #f3ece4;
+  --color-bg-deep: #e8dfd4;
+  --color-surface: #fffaf6;
+  --color-surface-elevated: #ffffff;
+  --color-text: #2a2420;
+  --color-muted: #6b5d54;
   --color-accent: #c45c3e;
-  --color-accent-hover: #a84d32;
-  --color-forest: #2d4a3e;
-  --color-forest-light: #3d6354;
-  --color-sand: #e8dfd4;
-  --color-line: #e0d8cf;
-  --shadow-sm: 0 2px 8px rgba(45, 74, 62, 0.08);
-  --shadow-md: 0 8px 24px rgba(45, 74, 62, 0.12);
-  --radius: 12px;
-  --font-body: 'Source Sans 3', system-ui, sans-serif;
+  --color-accent-hover: #a8462c;
+  --color-accent-glow: rgba(196, 92, 62, 0.35);
+  --color-forest: #16453d;
+  --color-forest-mid: #1d5c52;
+  --color-forest-light: #2d7a6c;
+  --color-sand: #dccfbc;
+  --color-line: rgba(42, 36, 32, 0.1);
+  --color-line-strong: rgba(42, 36, 32, 0.16);
+  --shadow-sm: 0 2px 14px rgba(22, 69, 61, 0.07);
+  --shadow-md: 0 14px 44px rgba(22, 69, 61, 0.11);
+  --shadow-lift: 0 20px 50px rgba(22, 69, 61, 0.14);
+  --radius: 14px;
+  --radius-lg: 22px;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-display: 'Fraunces', Georgia, serif;
-  --max: 1100px;
+  --max: 1120px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 *,
@@ -27,6 +36,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -35,6 +50,16 @@ body {
   color: var(--color-text);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 #root {
@@ -51,7 +76,7 @@ h3 {
 }
 
 a {
-  color: var(--color-forest-light);
+  color: var(--color-forest-mid);
 }
 
 a:hover {

@@ -16,7 +16,7 @@ export default function Header() {
               <path fill="#e8c4a8" d="M8 18c0-2 1.5-3.5 3.5-3.5S15 16 15 18v2H8v-2zm11 0c0-2 1.5-3.5 3.5-3.5S24 16 24 18v2h-5v-2z" />
               <ellipse cx="11" cy="12" rx="2.5" ry="3" fill="#e8c4a8" />
               <ellipse cx="21" cy="12" rx="2.5" ry="3" fill="#e8c4a8" />
-              <ellipse cx="16" cy="14" rx="4" ry="3.5" fill="#c45c3e" />
+              <ellipse cx="16" cy="14" rx="4" ry="3.5" fill="var(--color-accent)" />
             </svg>
           </span>
           <span className="site-logo__text">
