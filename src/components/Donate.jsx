@@ -22,9 +22,9 @@ function loadRazorpayScript() {
 }
 
 export default function Donate() {
-  const [currency, setCurrency] = useState('USD')
+  const [currency, setCurrency] = useState('INR')
   const [frequency, setFrequency] = useState('one-time')
-  const [selectedAmount, setSelectedAmount] = useState(CURRENCIES.USD.amounts[0])
+  const [selectedAmount, setSelectedAmount] = useState(CURRENCIES.INR.amounts[0])
   const [customAmount, setCustomAmount] = useState('')
   const [showDetailsModal, setShowDetailsModal] = useState(false)
   const [donorDetails, setDonorDetails] = useState({ name: '', contact: '', email: '' })
@@ -80,6 +80,10 @@ export default function Donate() {
   async function handleDetailsSubmit(e) {
     e.preventDefault()
     if (!validateDetails()) return
+    if (currency !== 'INR') {
+      setPaymentMessage('UPI is available only with INR. Please select INR and try again.')
+      return
+    }
 
     setIsProcessing(true)
     setPaymentMessage('')
@@ -109,6 +113,14 @@ export default function Donate() {
         description: `${frequency === 'monthly' ? 'Monthly' : 'One-time'} donation`,
         order_id: orderData.orderId,
         prefill: orderData.prefill,
+        method: {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+          emi: true,
+          paylater: true,
+        },
         theme: { color: '#c45c3e' },
         handler: async (response) => {
           try {
@@ -280,6 +292,7 @@ export default function Donate() {
                 <button type="submit" className="donate-submit" disabled={isProcessing}>
                   {isProcessing ? 'Opening payment...' : 'Continue'}
                 </button>
+                {paymentMessage && <small className="donate-error">{paymentMessage}</small>}
               </form>
             </div>
           </div>
